@@ -5,7 +5,7 @@ export default function About() {
     let { a } = useParams();
     return (
         <div>
-            About aku dong say {a}
+            About aku dong {a}
         </div>
     )
 }
