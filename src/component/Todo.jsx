@@ -1,28 +1,28 @@
-import React, { Component } from 'react'
+import React, { useState } from 'react'
+import { connect } from 'react-redux'
+import { addTodos } from '../redux/actions/index'
 import List from './List'
 
-export default class Todo extends Component {
-  constructor(props){
-    super(props)
-    this.state = {
-      value : this.props.value,
-    }
-  }
-
-  render() {
+const Todo = ({a}) => {
+    const [value, setValue] = useState('')
+    
     return (
-      <div className="Todo">
-        {this.props.children}
-        <input type="text" onChange={(e) => this.setState({ value : e.target.value}) }/>
-        <button type="button" onClick={() => this.props.add(this.state.value)}>Add</button>
-        <button type="button" onClick={() => this.props.completeAll()}>Complete All</button>
-        <List 
-          todo={this.props.todo} 
-          remove={this.props.remove} 
-          edit={this.props.edit}
-          complete={this.props.complete}
-        />
-      </div>
+        <div className="Todo">
+            <input type="text" onChange={(e) => setValue(e.target.value) }/>
+            <button type="button" onClick={() => a(value)}>Add</button>
+            {/* <button type="button" onClick={() => props.completeAll()}>Complete All</button> */}
+            <List />
+        </div>
     )
-  }
 }
+
+const mapDispatchToProps = (dispatch) => ({
+    a: todo => dispatch(addTodos({
+        text: todo,
+        completed: false,
+        date:new Date(),
+        edit:false
+    }))
+})
+
+export default connect(null, mapDispatchToProps)(Todo)
